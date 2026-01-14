@@ -7,3 +7,4 @@ router.use("/users", usersRoutes);
 router.use("/admins", usersRoutes);
 router.use("/products", usersRoutes);
 router.use("/orders", usersRoutes);
+router.use("/carts", usersRoutes);
