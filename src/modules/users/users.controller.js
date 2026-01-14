@@ -102,10 +102,31 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   const { id } = req.params;
 
-  const body = req.body;
+  //const body = req.body;
+  const {
+    fullName,
+    nickName,
+    gender,
+    country,
+    language,
+    timeZone
+  } = req.body;
+
+const updateData = {
+  ...(fullName && { name: fullName}),
+  nickName,
+  gender,
+  country,
+  language,
+  timeZone
+
+};
 
   try {
-    const updated = await User.findByIdAndUpdate(id, body);
+    const updated = await User.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!updated) {
       return res.status(404).json({
