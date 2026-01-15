@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getProducts, getProductByID } from "../../modules/products/product.controller";
+import { getProducts, getProductByID } from "../../modules/products/product.controller.js";
 
 
 // create routes
