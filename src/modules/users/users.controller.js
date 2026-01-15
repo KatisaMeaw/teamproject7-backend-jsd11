@@ -56,17 +56,59 @@ export const deleteUser = async (req, res, next) => {
 };
 //💚
 export const createUser = async (req, res, next) => {
-  const { name, email, mobileNumber, dob, password } = req.body;
+  // const { name, role, email, mobileNumber, dob, password } = req.body;
 
-  if (!name || !email || !mobileNumber || !dob || !password) {
-    const error = new Error("All field are required");
-    error.name = "ValidationError";
-    error.status = 400;
 
-    return next();
-  }
+  // if (!name || !email || !mobileNumber || !dob || !password) {
+  //   const error = new Error("All fields are required");
+  //   error.name = "ValidationError";
+  //   error.status = 400;
+
+  //   return next(error);
+  // }
+  // try {
+  //   const doc = await User.create({ name, role, email, mobileNumber, dob, password });
+  //   const safe = doc.toObject();
+  //   delete safe.password;
+
+  //   return res.status(201).json({
+  //     success: true,
+  //     data: safe,
+  //   });
+  // } catch (error) {
+  //   if (error.code === 11000) {
+  //     error.status = 409;
+  //     error.name = "DuplicateKeyError";
+  //     error.message = "Email already in use";
+  //   }
+
+  //   error.status = error.status || 500;
+  //   error.name = error.name || "DatabaseError";
+  //   error.message = error.message || "Failed to create a user";
+
+  //   return next(error);
+  // }
   try {
+    console.log("🔵 ข้อมูลที่ส่งมา:", req.body);
+
+    const { name, email, mobileNumber, dob, password } = req.body;
+
+    const role = req.body.role || "user";
+
+    if (!name || !email || !mobileNumber || !dob || !password) {
+      console.log("🔴 ข้อมูลไม่ครบ");
+      const error = new Error("All fields are required");
+      error.name = "ValidationError";
+      error.status = 400;
+      return next(error);
+    }
+
+    console.log("🟡 กำลังพยายามบันทึกลง Database...");
+
     const doc = await User.create({ name, role, email, mobileNumber, dob, password });
+
+    console.log("🟢 บันทึกสำเร็จ ID:", doc._id);
+
     const safe = doc.toObject();
     delete safe.password;
 
@@ -74,20 +116,23 @@ export const createUser = async (req, res, next) => {
       success: true,
       data: safe,
     });
+
   } catch (error) {
+    console.log("🔴 เกิดข้อผิดพลาด (CATCH):", error);
+
     if (error.code === 11000) {
       error.status = 409;
       error.name = "DuplicateKeyError";
       error.message = "Email already in use";
     }
 
-    error.status = 500;
+    error.status = error.status || 500;
     error.name = error.name || "DatabaseError";
     error.message = error.message || "Failed to create a user";
 
     return next(error);
   }
-};
+}
 //💚
 export const updateUser = async (req, res, next) => {
   const { id } = req.params;
