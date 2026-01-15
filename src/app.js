@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser"
 import { router as apiRoutes} from "./routes/index.js"
 
 
@@ -11,11 +12,14 @@ const corsOptions = {
         "http://localhost:5174",
         "http://localhost:5175",
     ],
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
     res.send("Hello World");

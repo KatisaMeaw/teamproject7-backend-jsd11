@@ -66,17 +66,15 @@ export const deleteUser = async (req, res) => {
 };
 //💚
 export const createUser = async (req, res) => {
-  const { name, email, mobileNumber, dob, password } = req.body;
-
-  if (!name || !email || !mobileNumber || !dob || !password) {
+  const { name, role, email, mobileNumber, dob, password } = req.body;
+  if (!name ||  !email || !mobileNumber || !dob || !password) {
     return res.status(400).json({
       success: false,
       error: "Please provide all the details above.",
     });
   }
   try {
-    const doc = await User.create({ name, email, mobileNumber, dob, password });
-
+    const doc = await User.create({ name, role, email, mobileNumber, dob, password });
     const safe = doc.toObject();
     delete safe.password;
 
@@ -99,6 +97,9 @@ export const createUser = async (req, res) => {
   }
 };
 //💚
+
+
+
 export const updateUser = async (req, res) => {
   const { id } = req.params;
 
