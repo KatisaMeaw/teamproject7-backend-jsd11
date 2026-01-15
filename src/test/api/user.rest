@@ -25,3 +25,9 @@ Content-Type: application/json
     "email": "aaabb@exemple.com",
     "password":"abc123456"
 }
+
+### GET request to read all product
+GET http://localhost:3000/api/v1/products
+
+### GET request to read one product
+GET http://localhost:3000/api/v1/products/id
