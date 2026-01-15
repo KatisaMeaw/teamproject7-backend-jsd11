@@ -66,8 +66,7 @@ export const createUser = async (req, res, next) => {
     return next();
   }
   try {
-    const doc = await User.create({ name, email, mobileNumber, dob, password });
-
+    const doc = await User.create({ name, role, email, mobileNumber, dob, password });
     const safe = doc.toObject();
     delete safe.password;
 
