@@ -3,49 +3,39 @@ import mongoose from "mongoose";
 // create schema
 const productSchema = new mongoose.Schema(
     {
-        id:{
-            type: Number, //ชนิดของข้อมูลที่จะต้องใส่
-            require: true, // บอกว่าต้องมีนะ
-            unique: true, // กำหนดว่าห้ามซ้ำกันเด็ดขาด
-        },
+        // ✅ แนะนำให้ลบฟิลด์ id: Number ทิ้งไปเลย เพราะเราจะใช้ _id ของ MongoDB
         name: {
             type: String,
-            require: true,
-            trim: true, // ตัดช่องว่างหน้าหลัง
+            required: true, // เพิ่ม d
+            trim: true,
         },
-        category:{
+        category: {
             type: String,
-            require: true,
-            enum:['Erognomic Chair','Table','Accessories'] // เป็นการล็อคสเปคว่า ค่าที่ส่งมาต้องตรงกับคำในลิสต์เท่านั้น
-            //Enumerationคือ เป็นเหมือนกล่องที่เราสร้างขึ้นมาเพื่อจัดเก็บสิ่งที่เป็นชนิดเดียวกัน
+            required: true, // เพิ่ม d
+            enum: ['Ergonomic Chair', 'Table', 'Accessories'] 
         },
-        image:{
-            type: String, // เพราะเก็บเป็น URL
-            require: true,
-        },
-        decription:{
+        image: {
             type: String,
-            require: false, // ใส่ก็ได้ไม่ใส่ก็ได้
+            required: true, // เพิ่ม d
         },
-        price:{ 
-            type: Number,
-            require: true,
+        description: { // ✅ แก้ตัวสะกดให้ถูกต้อง (เพิ่ม s)
+            type: String,
+            required: false, 
         },
-        originalPrice:{
+        price: { 
             type: Number,
-            require: false,
+            required: true, // เพิ่ม d
         },
-        discount:{
+        originalPrice: {
             type: Number,
-            require: false,
+            required: false,
+        },
+        discount: {
+            type: Number,
+            required: false,
         },
     },
-
-    //ตัวช่วยพิเศษของ Mongoose
-    //มันจะสร้าง field createdAt (สร้างเมื่อไหร่) และ updatedAt (แก้ไขล่าสุดเมื่อไหร่) ให้เราเองโดยไม่ต้องเขียนโค้ดเพิ่ม
-    {
-        timestamps: true 
-    }
+    { timestamps: true }
 );
 
 export const Product = mongoose.model('Product', productSchema);

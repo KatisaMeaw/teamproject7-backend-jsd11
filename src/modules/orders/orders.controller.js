@@ -13,12 +13,18 @@ export const addOrderItems = async (req, res, next) => {
 
     const order = new Order({
       orderItems: orderItems.map((x) => ({
-        ...x,
-        product: x.id,
-        _id: undefined
+        name: x.name,
+        quantity: x.quantity,
+        image: x.image,
+        price: x.price,
+        product: x.product,
+        _id: undefined // ป้องกันการเอา _id ของสินค้ามาปนกับ _id ของ orderItem
       })),
       shippingAddress,
       totalPrice,
+      // เพิ่มฟิลด์เริ่มต้นตาม Schema
+      isPaid: false,
+      status: "Pending"
     });
 
     const createdOrder = await order.save();
