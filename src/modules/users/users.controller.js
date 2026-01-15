@@ -43,7 +43,7 @@ export const deleteUser = async (req, res, next) => {
 
     if (!deleted) {
       const error = new Error("User not found");
-      return next();
+      return next(error);
     }
 
     return res.status(200).json({
