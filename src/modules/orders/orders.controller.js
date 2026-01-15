@@ -1,36 +1,37 @@
-import Order from './orders.model.js';
+import { Order } from './orders.model.js';
 
-//เพิ่มสินค้าในตะกร้าลงในออเดอร์
-export const addOrderItems = async (req, res) => {
+export const addOrderItems = async (req, res, next) => {
   try {
-    const {
-      orderItems,
-      shippingAddress,
-      totalPrice
-    } = req.body;
+    const { orderItems, shippingAddress, totalPrice } = req.body;
 
-    // 1. ตรวจสอบว่ามีสินค้าส่งมาหรือไม่
-    if (orderItems && orderItems.length === 0) {
-      return res.status(400).json({ message: 'ไม่มีรายการสินค้าในตะกร้า' });
+    if (!orderItems || orderItems.length === 0) {
+      return res.status(400).json({
+        error: true,
+        message: 'ไม่มีรายการสินค้าในตะกร้า'
+      });
     }
 
-    // 2. สร้าง Instance ของ Order ใหม่
     const order = new Order({
-      //user: req.user._id, // ดึง ID ผู้ใช้มาจาก Auth Middleware (ขั้นตอนถัดไป)
       orderItems: orderItems.map((x) => ({
         ...x,
-        product: x.id, // แมตช์ ID สินค้าให้ตรงกับ Schema
-        _id: undefined // ป้องกัน ID ซ้ำซ้อน
+        product: x.id,
+        _id: undefined
       })),
       shippingAddress,
       totalPrice,
     });
 
-    // 3. บันทึกลง MongoDB
     const createdOrder = await order.save();
 
-    res.status(201).json(createdOrder);
+    // ข้อ 2: จัด Format การตอบกลับใหม่
+    res.status(201).json({
+      error: false,
+      message: "สร้างคำสั่งซื้อสำเร็จ",
+      order: createdOrder
+    });
+
   } catch (error) {
-    res.status(500).json({ message: 'เกิดข้อผิดพลาดในการสร้างคำสั่งซื้อ', error: error.message });
+    // ใช้ next(error) เพื่อให้เหมือนไฟล์ User
+    next(error); 
   }
 };
