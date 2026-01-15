@@ -1,0 +1,51 @@
+import mongoose from 'mongoose';
+
+const orderSchema = mongoose.Schema(
+  {
+    // เชื่อมโยงว่าใครเป็นคนสั่ง (ต้องมีการ Login)
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: 'User',
+    },
+    // รายการสินค้าที่ดึงมาจาก CartContext
+    orderItems: [
+      {
+        name: { type: String, required: true },
+        quantity: { type: Number, required: true },
+        image: { type: String, required: true },
+        price: { type: Number, required: true },
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: 'Product',
+        },
+      },
+    ],
+    shippingAddress: {
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: String, required: true },
+      country: { type: String, required: true },
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0.0,
+    },
+    isPaid: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    status: {
+      type: String,
+      required: true,
+      default: 'Pending', // Pending, Processing, Shipped, Delivered
+    },
+  },
+  { timestamps: true } // เก็บเวลาที่สั่งซื้ออัตโนมัติ
+);
+
+const Order = mongoose.model('Order', orderSchema);
+export default Order;

@@ -9,7 +9,7 @@ export const getProducts =  async (req, res) => {
         // ค้นหาข้อมูลใน Model สินค้า  {}= "เอามาทั้งหมดเลย ไม่ต้องกรองอะไรทั้งนั้น" (Select All)
         // await: "รอเดี๋ยว" สั่งให้หยุดรอจนกว่า Database จะวิ่งไปกวาดข้อมูลมาครบทุกชิ้นแล้วค่อยไปต่อ
         // const products: เมื่อได้ข้อมูลมาแล้ว ก็เอามาเก็บใส่กล่อง (ตัวแปร) ชื่อ products
-        const products = await Product.create({});
+        const products = await Product.find({});
 
         // ส่งของกลับไปให้ลูกค้า (Frontend) พร้อมบอกว่า OK (Status 200)
         //.json(products): ส่งรายการสินค้าทั้งหมดที่อยู่ในตัวแปร products กลับไปให้หน้าบ้าน (Frontend) เพื่อเอาไปวนลูปแสดงผลบนหน้าจอ
