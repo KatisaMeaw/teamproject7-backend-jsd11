@@ -20,13 +20,13 @@ export const getProducts =  async (req, res) => {
 };
 
 //ฟังก์ชันดึงสินค้าชิ้นเดียว (Get Product By ID)
-export const getProductByID = async (res, req) => {
+export const getProductByID = async (req, res) => {
     try {
         // รับเลข ID ที่ลูกค้าส่งมา - เป็นการแกะกล่องรับค่าที่ส่งมากับ URL
         // เพื่อให้เรารู้ว่าลูกค้าต้องการดูสินค้าหมายเลขอะไร แล้วไปเก็บไว้ในตัวแปร id
         const {id} = req.params;
         // สั่ง Model ให้หาของที่ field 'id' ตรงกับเลขที่ส่งมา
-        const product = Product.findOne({id: parseInt(id)})
+        const product = await Product.findOne({_id: parseInt(id)})
 
         if(!product){ // "ถ้าตัวแปร product ว่างเปล่า" (คือ Database หาเลขนี้ไม่เจอ)
             return res.status(404).json({message:"Production not found"});
