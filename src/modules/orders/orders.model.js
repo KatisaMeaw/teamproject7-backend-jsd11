@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema(
     // เชื่อมโยงว่าใครเป็นคนสั่ง
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: false, // ปรับเป็น true เพราะปกติออเดอร์ต้องมีเจ้าของครับ
+      required: false, //เฉพาะเทส ต้องเปลี่ยนเป็น true เมื่อใช้ร่วมกับ auth
       ref: "User",
     },
     // รายการสินค้า

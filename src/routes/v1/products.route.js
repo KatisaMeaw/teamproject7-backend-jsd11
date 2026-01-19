@@ -7,5 +7,5 @@ export const router = Router();
 router.get('/', getProducts);
 
 // 2. ดึงสินค้าหนึ่งอย่าง URL: GET /api/v1/products/:id
-// ✅ ต้องเติม /:id เพื่อให้รับค่า ID จาก URL ได้
+// เติม /:id เพื่อให้รับค่า ID จาก URL ได้
 router.get('/:id', getProductByID);

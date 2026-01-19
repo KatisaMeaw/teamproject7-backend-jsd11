@@ -3,28 +3,28 @@ import mongoose from "mongoose";
 // create schema
 const productSchema = new mongoose.Schema(
     {
-        // ✅ แนะนำให้ลบฟิลด์ id: Number ทิ้งไปเลย เพราะเราจะใช้ _id ของ MongoDB
+        
         name: {
             type: String,
-            required: true, // เพิ่ม d
+            required: true, 
             trim: true,
         },
         category: {
             type: String,
-            required: true, // เพิ่ม d
-            enum: ['Ergonomic Chair', 'Table', 'Accessories'] 
+            required: true, 
+            enum: ['Ergonomic Chair', 'Table', 'Accessories']
         },
         image: {
             type: String,
-            required: true, // เพิ่ม d
+            required: true, 
         },
-        description: { // ✅ แก้ตัวสะกดให้ถูกต้อง (เพิ่ม s)
+        description: { 
             type: String,
             required: false, 
         },
         price: { 
             type: Number,
-            required: true, // เพิ่ม d
+            required: true, 
         },
         originalPrice: {
             type: Number,

@@ -15,11 +15,11 @@ export const getProducts = async (req, res) => {
 };
 
 // ✅ 2. ฟังก์ชันดึงสินค้าชิ้นเดียว (Get Product By ID)
-export const getProductByID = async (req, res) => { // ✅ แก้ลำดับเป็น (req, res)
+export const getProductByID = async (req, res) => { // แก้ลำดับเป็น (req, res)
     try {
         const { id } = req.params;
 
-        // ✅ ใช้ findById(id) ตัวเดียวจบ ไม่ต้อง parseInt
+        // ใช้ findById(id)
         // มันจะไปหาจาก _id: "6968ed3e..." ใน MongoDB ให้เอง
         const product = await Product.findById(id);
 

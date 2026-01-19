@@ -1,5 +1,6 @@
 import { Order } from './orders.model.js';
 
+// เพิ่มของในตะกร้าลง Orders Collection
 export const addOrderItems = async (req, res, next) => {
   try {
     const { orderItems, shippingAddress, totalPrice } = req.body;
@@ -22,14 +23,13 @@ export const addOrderItems = async (req, res, next) => {
       })),
       shippingAddress,
       totalPrice,
-      // เพิ่มฟิลด์เริ่มต้นตาม Schema
       isPaid: false,
       status: "Pending"
     });
 
     const createdOrder = await order.save();
 
-    // ข้อ 2: จัด Format การตอบกลับใหม่
+    // แสดงผลเมื่อสำเร็จ
     res.status(201).json({
       error: false,
       message: "สร้างคำสั่งซื้อสำเร็จ",
@@ -37,7 +37,6 @@ export const addOrderItems = async (req, res, next) => {
     });
 
   } catch (error) {
-    // ใช้ next(error) เพื่อให้เหมือนไฟล์ User
-    next(error); 
+    next(error);
   }
 };
