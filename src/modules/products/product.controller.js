@@ -3,6 +3,9 @@ import { Product } from "./products.model.js";
 // ✅ 1. ฟังก์ชันดึงสินค้าทั้งหมด (Get All Products)
 export const getProducts = async (req, res) => {
     try {
+        // ค้นหาข้อมูลใน Model สินค้า  {}= "เอามาทั้งหมดเลย ไม่ต้องกรองอะไรทั้งนั้น" (Select All)
+        // await: "รอเดี๋ยว" สั่งให้หยุดรอจนกว่า Database จะวิ่งไปกวาดข้อมูลมาครบทุกชิ้นแล้วค่อยไปต่อ
+        // const products: เมื่อได้ข้อมูลมาแล้ว ก็เอามาเก็บใส่กล่อง (ตัวแปร) ชื่อ products
         // ค้นหาข้อมูลทั้งหมดใน MongoDB
         const products = await Product.find({});
 
