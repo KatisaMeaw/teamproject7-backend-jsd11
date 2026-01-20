@@ -1,14 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const orderSchema = mongoose.Schema(
+const orderSchema = new mongoose.Schema(
   {
-    // เชื่อมโยงว่าใครเป็นคนสั่ง (ต้องมีการ Login)
+    // เชื่อมโยงว่าใครเป็นคนสั่ง
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: false,
-      ref: 'User',
+      required: false, //เฉพาะเทส ต้องเปลี่ยนเป็น true เมื่อใช้ร่วมกับ auth
+      ref: "User",
     },
-    // รายการสินค้าที่ดึงมาจาก CartContext
+    // รายการสินค้า
     orderItems: [
       {
         name: { type: String, required: true },
@@ -18,7 +18,7 @@ const orderSchema = mongoose.Schema(
         product: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
-          ref: 'Product',
+          ref: "Product",
         },
       },
     ],
@@ -41,11 +41,14 @@ const orderSchema = mongoose.Schema(
     status: {
       type: String,
       required: true,
-      default: 'Pending', // Pending, Processing, Shipped, Delivered
+      enum: ["Pending", "Processing", "Shipped", "Delivered"], // ใช้ enum เพื่อจำกัดค่าที่กรอกได้
+      default: "Pending",
     },
   },
-  { timestamps: true } // เก็บเวลาที่สั่งซื้ออัตโนมัติ
+  { 
+    timestamps: true,
+    versionKey: false // ช่วยให้ไม่มีฟิลด์ __v ในฐานข้อมูล
+  }
 );
 
-const Order = mongoose.model('Order', orderSchema);
-export default Order;
+export const Order = mongoose.model("Order", orderSchema);
