@@ -3,49 +3,40 @@ import mongoose from "mongoose";
 // create schema
 const productSchema = new mongoose.Schema(
     {
-        id:{
-            type: Number, //ชนิดของข้อมูลที่จะต้องใส่
-            require: true, // บอกว่าต้องมีนะ
-            unique: true, // กำหนดว่าห้ามซ้ำกันเด็ดขาด
-        },
+        
         name: {
             type: String,
-            require: true,
-            trim: true, // ตัดช่องว่างหน้าหลัง
+            required: true, 
+            trim: true,
         },
-        category:{
+        category: {
             type: String,
-            require: true,
+            required: true,
             enum:['Ergonomic Chair','Ergonomic Desk','Accessories'] // เป็นการล็อคสเปคว่า ค่าที่ส่งมาต้องตรงกับคำในลิสต์เท่านั้น
             //Enumerationคือ เป็นเหมือนกล่องที่เราสร้างขึ้นมาเพื่อจัดเก็บสิ่งที่เป็นชนิดเดียวกัน
         },
-        image:{
-            type: String, // เพราะเก็บเป็น URL
-            require: true,
-        },
-        decription:{
+        image: {
             type: String,
-            require: true, // ใส่ก็ได้ไม่ใส่ก็ได้
+            required: true, 
         },
-        price:{
-            type: Number,
-            require: true,
-        },
-        originalPrice:{
-            type: Number,
-            require: true,
-        },
-        discount:{
+        description: { 
             type: String,
-            require: true,
+            required: false, 
+        },
+        price: { 
+            type: Number,
+            required: true, 
+        },
+        originalPrice: {
+            type: Number,
+            required: false,
+        },
+        discount: {
+            type: Number,
+            required: false,
         },
     },
-
-    //ตัวช่วยพิเศษของ Mongoose
-    //มันจะสร้าง field createdAt (สร้างเมื่อไหร่) และ updatedAt (แก้ไขล่าสุดเมื่อไหร่) ให้เราเองโดยไม่ต้องเขียนโค้ดเพิ่ม
-    {
-        timestamps: true 
-    }
+    { timestamps: true }
 );
 
 export const Product = mongoose.model('Product', productSchema);

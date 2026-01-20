@@ -43,7 +43,7 @@ export const deleteUser = async (req, res, next) => {
 
     if (!deleted) {
       const error = new Error("User not found");
-      return next();
+      return next(error);
     }
 
     return res.status(200).json({
@@ -56,17 +56,20 @@ export const deleteUser = async (req, res, next) => {
 };
 //💚
 export const createUser = async (req, res, next) => {
-  const { name, email, mobileNumber, dob, password } = req.body;
 
-  if (!name || !email || !mobileNumber || !dob || !password) {
-    const error = new Error("All field are required");
-    error.name = "ValidationError";
-    error.status = 400;
-
-    return next();
-  }
   try {
+    const { name, email, mobileNumber, dob, password } = req.body;
+
+    const role = req.body.role || "user";
+
+    if (!name || !email || !mobileNumber || !dob || !password) {
+      const error = new Error("All fields are required");
+      error.name = "ValidationError";
+      error.status = 400;
+      return next(error);
+    }
     const doc = await User.create({ name, role, email, mobileNumber, dob, password });
+
     const safe = doc.toObject();
     delete safe.password;
 
@@ -74,6 +77,7 @@ export const createUser = async (req, res, next) => {
       success: true,
       data: safe,
     });
+
   } catch (error) {
     if (error.code === 11000) {
       error.status = 409;
@@ -81,13 +85,13 @@ export const createUser = async (req, res, next) => {
       error.message = "Email already in use";
     }
 
-    error.status = 500;
+    error.status = error.status || 500;
     error.name = error.name || "DatabaseError";
     error.message = error.message || "Failed to create a user";
 
     return next(error);
   }
-};
+}
 //💚
 export const updateUser = async (req, res, next) => {
   const { id } = req.params;

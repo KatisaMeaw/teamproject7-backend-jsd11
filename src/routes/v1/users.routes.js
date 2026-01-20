@@ -39,14 +39,14 @@ router.get("/auth/cookie/me", authUser, async (req, res, next) => {
 
 router.get("/:id", getUser);
 
-router.post("/", createUser);
+router.post("/register", createUser);
 
 // The function inside is called Route Handler / Controller
 router.delete("/:id", deleteUser);
 
-router.patch("/:id", updateUser);
+router.patch("/:id", authUser, updateUser);
 
-//login 
+//login
 router.post("/auth/cookie/login", async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -108,4 +108,21 @@ router.post("/auth/cookie/login", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+ //Logout a user
+router.post("/auth/cookie/logout", (req, res) => {
+    const isProd = process.env.NODE_ENV === "production";
+
+    res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? "none" : "lax",
+        path: "/",
+    });
+
+    res.status(200).json({
+        error: false,
+        message:"Logged out successfully!",
+    });
 });

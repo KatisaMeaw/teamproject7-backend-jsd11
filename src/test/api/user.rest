@@ -6,9 +6,9 @@ POST http://localhost:3000/api/v1/users
 Content-Type: application/json
 
 {
-    "name": "aaaa aaaa",
+    "name": "aaaaa aaaaa",
     "role": "user",
-    "email": "aaabb@exemple.com",
+    "email": "aaabbba@exemple.com",
     "mobileNumber": "a0123456789",
     "dob": "1990-11-11",
     "password": "abc123456"
@@ -22,7 +22,7 @@ POST http://localhost:3000/api/v1/users/auth/cookie/login
 Content-Type: application/json
 
 {
-    "email": "aaabb@exemple.com",
+    "email": "aaabbba@exemple.com",
     "password":"abc123456"
 }
 
