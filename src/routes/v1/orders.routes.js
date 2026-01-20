@@ -1,18 +1,10 @@
 import { Router } from "express";
-import { addOrderItems } from "../../modules/orders/orders.controller.js";// import { authUser } from "../../middlewares/auth.js"; // ใช้ชื่อให้ตรงกับระบบที่คุณมี
+import { addOrderItems, getMyOrders } from "../../modules/orders/orders.controller.js";
+import { authUser } from "../../middlewares/auth.js";
 
 export const router = Router();
-/**
- * @route   POST /api/orders
- * @desc    Create new order items
- * @access  Private
- */
-router.post("/", addOrderItems);
 
+// ทุกคนที่สั่งซื้อหรือดูออเดอร์ต้องล็อกอินก่อน
+router.post("/", authUser, addOrderItems);
+router.get("/me", authUser, getMyOrders);
 
-
-
-
-
-// router.get("/", getOrders);
-export default router;
