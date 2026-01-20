@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
         category:{
             type: String,
             require: true,
-            enum:['Erognomic Chair','Table','Accessories'] // เป็นการล็อคสเปคว่า ค่าที่ส่งมาต้องตรงกับคำในลิสต์เท่านั้น
+            enum:['Ergonomic Chair','Ergonomic Desk','Accessories'] // เป็นการล็อคสเปคว่า ค่าที่ส่งมาต้องตรงกับคำในลิสต์เท่านั้น
             //Enumerationคือ เป็นเหมือนกล่องที่เราสร้างขึ้นมาเพื่อจัดเก็บสิ่งที่เป็นชนิดเดียวกัน
         },
         image:{
@@ -25,19 +25,19 @@ const productSchema = new mongoose.Schema(
         },
         decription:{
             type: String,
-            require: false, // ใส่ก็ได้ไม่ใส่ก็ได้
+            require: true, // ใส่ก็ได้ไม่ใส่ก็ได้
         },
-        price:{ 
+        price:{
             type: Number,
             require: true,
         },
         originalPrice:{
             type: Number,
-            require: false,
+            require: true,
         },
         discount:{
-            type: Number,
-            require: false,
+            type: String,
+            require: true,
         },
     },
 
