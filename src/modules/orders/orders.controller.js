@@ -1,5 +1,6 @@
 import { Order } from './orders.model.js';
-import { Cart } from '../carts/carts.model.js'; // ✅ Import Cart เพื่อใช้ล้างข้อมูลหลังสั่งซื้อ
+import { Cart } from '../carts/carts.model.js';
+import { User } from '../users/users.model.js';
 
 // เพิ่มของในตะกร้าลง Orders Collection
 export const addOrderItems = async (req, res, next) => {
@@ -8,13 +9,16 @@ export const addOrderItems = async (req, res, next) => {
     const {
       orderItems,
       shippingAddress, // ตัวนี้มีชื่อ, เบอร์, อีเมล อยู่ข้างใน
-      totalPrice
+      totalPrice,
     } = req.body;
 
     const userId = req.user.user._id;
+    const userProfile = await User.findById(userId);
+    const actualName = userProfile ? userProfile.name : "Unknown User";
 
     const order = new Order({
       user: req.user.user._id,
+      userName: actualName,
       orderItems,
       shippingAddress,
       totalPrice,
@@ -40,6 +44,27 @@ export const getMyOrders = async (req, res, next) => {
 
     const orders = await Order.find({ user: req.user.user._id }).sort({ createdAt: -1 });
     res.status(200).json({ error: false, orders });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// ยกเลิกออเดอร์
+export const cancelOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    // อนุญาตให้ยกเลิกเฉพาะสถานะที่กำหนด
+    if (order.status !== "Pending") {
+      return res.status(400).json({ message: "Cannot cancel order at this stage." });
+    }
+
+    order.status = "Cancelled";
+    await order.save();
+
+    res.status(200).json({ success: true, message: "Order cancelled successfully" });
   } catch (error) {
     next(error);
   }
