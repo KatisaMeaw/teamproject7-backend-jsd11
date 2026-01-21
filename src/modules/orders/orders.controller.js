@@ -4,18 +4,17 @@ import { Cart } from '../carts/carts.model.js'; // ✅ Import Cart เพื่�
 // เพิ่มของในตะกร้าลง Orders Collection
 export const addOrderItems = async (req, res, next) => {
   try {
-    const { orderItems, shippingAddress, totalPrice } = req.body;
+    // รับค่าที่ส่งมาจาก Frontend
+    const {
+      orderItems,
+      shippingAddress, // ตัวนี้มีชื่อ, เบอร์, อีเมล อยู่ข้างใน
+      totalPrice
+    } = req.body;
 
-    // ดึง userId จาก middleware authUser ที่เราใส่ไว้ใน Route
-    // โครงสร้างตามที่เขียนไว้ใน auth.js
     const userId = req.user.user._id;
 
-    if (!orderItems || orderItems.length === 0) {
-      return res.status(400).json({ error: true, message: 'ไม่มีรายการสินค้า' });
-    }
-
     const order = new Order({
-      userId,
+      user: req.user.user._id,
       orderItems,
       shippingAddress,
       totalPrice,
@@ -37,9 +36,9 @@ export const addOrderItems = async (req, res, next) => {
 // แสดงผลข้อมูลออเดอร์
 export const getMyOrders = async (req, res, next) => {
   try {
-    const userId = req.user.user._id;
+    //const userId = req.user.user._id;
 
-    const orders = await Order.find({ userId }).sort({ createdAt: -1 });
+    const orders = await Order.find({ user: req.user.user._id }).sort({ createdAt: -1 });
     res.status(200).json({ error: false, orders });
   } catch (error) {
     next(error);
