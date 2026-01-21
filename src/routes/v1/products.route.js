@@ -6,3 +6,4 @@ export const router = Router();
 router.get('/', getProducts)
 // ดึงสินค้าหนึ่งอย่าง URL:GET/api/V1/
 router.get('/:id', getProductByID)
+
