@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema(
     // เชื่อมโยงว่าใครเป็นคนสั่ง
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: false, //เฉพาะเทส ต้องเปลี่ยนเป็น true เมื่อใช้ร่วมกับ auth
+      required: true, //เฉพาะเทส ต้องเปลี่ยนเป็น true เมื่อใช้ร่วมกับ auth
       ref: "User",
     },
     // รายการสินค้า
@@ -23,10 +23,14 @@ const orderSchema = new mongoose.Schema(
       },
     ],
     shippingAddress: {
+      firstName: { type: String, required: true },
+      lastName: { type: String, required: true },
       address: { type: String, required: true },
       city: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
+      phone: { type: String, required: true },
+      email: { type: String, required: true },
     },
     totalPrice: {
       type: Number,
@@ -45,10 +49,10 @@ const orderSchema = new mongoose.Schema(
       default: "Pending",
     },
   },
-  { 
+  {
     timestamps: true,
-    versionKey: false // ช่วยให้ไม่มีฟิลด์ __v ในฐานข้อมูล
-  }
+    versionKey: false, // ช่วยให้ไม่มีฟิลด์ __v ในฐานข้อมูล
+  },
 );
 
 export const Order = mongoose.model("Order", orderSchema);
