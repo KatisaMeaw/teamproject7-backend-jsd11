@@ -11,6 +11,7 @@ const corsOptions = {
         "http://localhost:5173",
         "http://localhost:5174",
         "http://localhost:5175",
+        "https://teamproject7-jsd11.vercel.app",
     ],
     credentials: true,
 };
