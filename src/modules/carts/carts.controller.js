@@ -102,3 +102,29 @@ export const removeItemFromCart = async (req, res, next) => {
     next(error);
   }
 };
+
+// ล้างตะกร้าสินค้าทั้งหมด
+export const clearCart = async (req, res, next) => {
+  try {
+    // ดึง userId จาก Token ที่เพื่อนคุณทำไว้ (req.user.user._id)
+    const userId = req.user.user._id;
+
+    // ค้นหาและลบเอกสารตะกร้าของผู้ใช้คนนี้ทิ้ง
+    const cart = await Cart.findOneAndDelete({ userId });
+
+    if (!cart) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "ไม่พบตะกร้าสินค้าที่ต้องการลบ" 
+      });
+    }
+
+    res.status(200).json({ 
+      success: true, 
+      message: "ล้างตะกร้าสินค้าเรียบร้อยแล้ว" 
+    });
+  } catch (error) {
+    // ส่ง Error ไปยัง Global Error Handler
+    next(error);
+  }
+};

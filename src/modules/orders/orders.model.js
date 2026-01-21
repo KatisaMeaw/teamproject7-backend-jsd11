@@ -8,6 +8,10 @@ const orderSchema = new mongoose.Schema(
       required: true, //เฉพาะเทส ต้องเปลี่ยนเป็น true เมื่อใช้ร่วมกับ auth
       ref: "User",
     },
+    userName: {
+      type: String,
+      required: true, // ตั้งเป็น true เพื่อให้ใน DB มีชื่อปรากฏเสมอ
+    },
     // รายการสินค้า
     orderItems: [
       {
@@ -45,9 +49,9 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["Pending", "Processing", "Shipped", "Delivered"], // ใช้ enum เพื่อจำกัดค่าที่กรอกได้
+      enum: ["Pending", "Completed", "Cancelled"],
       default: "Pending",
-    },
+},
   },
   {
     timestamps: true,
