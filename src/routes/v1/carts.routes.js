@@ -13,5 +13,5 @@ export const router = Router();
 router.get("/", authUser, getCart);                       // GET /api/carts
 router.post("/", authUser, addToCart);                    // POST /api/carts
 router.put("/:productId", authUser, updateCartQuantity);   // PUT /api/carts/:productId
+router.delete("/", authUser, clearCart); //DELETE /api/carts
 router.delete("/:productId", authUser, removeItemFromCart); // DELETE /api/carts/:productId
-router.delete("/", authUser, clearCart);
