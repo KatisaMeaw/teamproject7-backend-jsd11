@@ -6,10 +6,10 @@ POST http://localhost:3000/api/v1/users
 Content-Type: application/json
 
 {
-    "name": "aaaaa aaaaa",
+    "name": "happy aaaaa",
     "role": "user",
-    "email": "aaabbba@exemple.com",
-    "mobileNumber": "a0123456789",
+    "email": "happy@exemple.com",
+    "mobileNumber": "0123456789",
     "dob": "1990-11-11",
     "password": "abc123456"
 }
@@ -22,9 +22,18 @@ POST http://localhost:3000/api/v1/users/auth/cookie/login
 Content-Type: application/json
 
 {
-    "email": "aaabbba@exemple.com",
-    "password":"abc123456"
+    "email": "somu@exemple.com",
+    "password":"abc12345"
 }
+
+### POST Logout a user
+POST http://localhost:3000/api/v1/users/auth/cookie/logout
+
+### cookies
+GET http://localhost:3000/api/v1/users/auth/cookie/me
+Content-Type: application/json
+
+
 
 ### GET request to read all product
 GET http://localhost:3000/api/v1/products
