@@ -7,4 +7,4 @@ export const router = Router();
 // ทุกคนที่สั่งซื้อหรือดูออเดอร์ต้องล็อกอินก่อน
 router.post("/", authUser, addOrderItems);
 router.get("/me", authUser, getMyOrders);
-router.patch('/:id/cancel', cancelOrder);
+router.patch('/:id/cancel', authUser, cancelOrder);
