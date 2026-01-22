@@ -112,12 +112,12 @@ export const clearCart = async (req, res, next) => {
     if (!cart) {
       return res.status(200).json({ 
         success: true, 
-        message: "ไม่พบตะกร้าสินค้าที่ต้องการลบ" 
+        message: "The shopping cart could not be found." 
       });
     }
     res.status(200).json({ 
       success: true, 
-      message: "ล้างตะกร้าสินค้าเรียบร้อยแล้ว" 
+      message: "The shopping cart has been cleared." 
     });
   } catch (error) {
     next(error);
